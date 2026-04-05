@@ -1,4 +1,16 @@
+
 import React from "react";
+
+type Variant = "primary" | "secondary" | "danger" | "success" | "outlined";
+type Size = "sm" | "md" | "lg";
+
+interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+    name?: string;
+    variant?: Variant;
+    size?: Size;
+    startIcon?: React.ReactNode;
+    endIcon?: React.ReactNode;
+}
 
 function Button({
     name = "Click Me",
@@ -9,10 +21,9 @@ function Button({
     className = "",
     disabled = false,
     ...props
-}) {
-    // Base styles
+}: ButtonProps) {
     const baseStyles =
-        "font-semibold rounded cursor-pointer transition-all duration-200 focus:outline-none flex items-center justify-center";
+        "font-semibold rounded cursor-pointer transition-all duration-200 focus:outline-none flex items-center justify"
 
     // Variants
     const variants = {
