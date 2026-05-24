@@ -16,14 +16,14 @@ The Button component works without installing Tailwind, Bootstrap, or any extra 
 import { Button } from "flexora-ui";
 
 export function Example() {
-    return (
-        <Button
-            name="Save changes"
-            variant="primary"
-            size="md"
-            onClick={() => console.log("Saved")}
-        />
-    );
+  return (
+    <Button
+      name="Save changes"
+      variant="primary"
+      size="md"
+      onClick={() => console.log("Saved")}
+    />
+  );
 }
 ```
 
@@ -31,27 +31,27 @@ You can also use `children`, icons, `className`, and `style` when you need custo
 
 ```tsx
 <Button
-    variant="outlined"
-    startIcon={<span>+</span>}
-    className="my-custom-button"
-    style={{ borderRadius: 999 }}
+  variant="outlined"
+  startIcon={<span>+</span>}
+  className="my-custom-button"
+  style={{ borderRadius: 999 }}
 >
-    Create project
+  Create project
 </Button>
 ```
 
 ### Props
 
-| Prop | Type | Default |
-| --- | --- | --- |
-| `name` | `string` | `"Click Me"` |
-| `children` | `React.ReactNode` | - |
-| `variant` | `"primary" \| "secondary" \| "danger" \| "success" \| "outlined" \| "ghost"` | `"primary"` |
-| `size` | `"sm" \| "md" \| "lg"` | `"md"` |
-| `startIcon` | `React.ReactNode` | - |
-| `endIcon` | `React.ReactNode` | - |
-| `fullWidth` | `boolean` | `false` |
-| `className` | `string` | - |
-| `style` | `React.CSSProperties` | - |
+| Prop        | Type                                                                         | Default      |
+| ----------- | ---------------------------------------------------------------------------- | ------------ |
+| `name`      | `string`                                                                     | `"Click Me"` |
+| `children`  | `React.ReactNode`                                                            | -            |
+| `variant`   | `"primary" \| "secondary" \| "danger" \| "success" \| "outlined" \| "ghost"` | `"primary"`  |
+| `size`      | `"sm" \| "md" \| "lg"`                                                       | `"md"`       |
+| `startIcon` | `React.ReactNode`                                                            | -            |
+| `endIcon`   | `React.ReactNode`                                                            | -            |
+| `fullWidth` | `boolean`                                                                    | `false`      |
+| `className` | `string`                                                                     | -            |
+| `style`     | `React.CSSProperties`                                                        | -            |
 
 All native button props like `disabled`, `type`, `onClick`, and `aria-*` are supported.

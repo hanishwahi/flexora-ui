@@ -1,4 +1,3 @@
-
 import React from "react";
 
 export type ButtonVariant =
@@ -21,10 +20,18 @@ export interface ButtonProps
     fullWidth?: boolean;
 }
 
+type ButtonCssVars = React.CSSProperties & {
+    "--flexora-button-bg"?: string;
+    "--flexora-button-color"?: string;
+    "--flexora-button-border"?: string;
+    "--flexora-button-shadow"?: string;
+    "--flexora-button-hover-bg"?: string;
+    "--flexora-button-hover-border"?: string;
+    "--flexora-button-active-bg"?: string;
+};
+
 type VariantStyle = {
-    base: React.CSSProperties;
-    hover: React.CSSProperties;
-    active: React.CSSProperties;
+    vars: ButtonCssVars;
 };
 
 const baseStyle: React.CSSProperties = {
@@ -51,60 +58,65 @@ const baseStyle: React.CSSProperties = {
 
 const variantStyles: Record<ButtonVariant, VariantStyle> = {
     primary: {
-        base: {
-            backgroundColor: "#2563eb",
-            color: "#ffffff",
-            boxShadow: "0 1px 2px rgba(37, 99, 235, 0.24)",
+        vars: {
+            "--flexora-button-bg": "#2563eb",
+            "--flexora-button-color": "#ffffff",
+            "--flexora-button-border": "transparent",
+            "--flexora-button-shadow": "0 1px 2px rgba(37, 99, 235, 0.24)",
+            "--flexora-button-hover-bg": "#1d4ed8",
+            "--flexora-button-active-bg": "#1e40af",
         },
-        hover: { backgroundColor: "#1d4ed8" },
-        active: { backgroundColor: "#1e40af", transform: "translateY(1px)" },
     },
     secondary: {
-        base: {
-            backgroundColor: "#f3f4f6",
-            borderColor: "#e5e7eb",
-            color: "#111827",
+        vars: {
+            "--flexora-button-bg": "#f3f4f6",
+            "--flexora-button-color": "#111827",
+            "--flexora-button-border": "#e5e7eb",
+            "--flexora-button-shadow": "none",
+            "--flexora-button-hover-bg": "#e5e7eb",
+            "--flexora-button-active-bg": "#d1d5db",
         },
-        hover: { backgroundColor: "#e5e7eb" },
-        active: { backgroundColor: "#d1d5db", transform: "translateY(1px)" },
     },
     danger: {
-        base: {
-            backgroundColor: "#dc2626",
-            color: "#ffffff",
-            boxShadow: "0 1px 2px rgba(220, 38, 38, 0.22)",
+        vars: {
+            "--flexora-button-bg": "#dc2626",
+            "--flexora-button-color": "#ffffff",
+            "--flexora-button-border": "transparent",
+            "--flexora-button-shadow": "0 1px 2px rgba(220, 38, 38, 0.22)",
+            "--flexora-button-hover-bg": "#b91c1c",
+            "--flexora-button-active-bg": "#991b1b",
         },
-        hover: { backgroundColor: "#b91c1c" },
-        active: { backgroundColor: "#991b1b", transform: "translateY(1px)" },
     },
     success: {
-        base: {
-            backgroundColor: "#16a34a",
-            color: "#ffffff",
-            boxShadow: "0 1px 2px rgba(22, 163, 74, 0.22)",
+        vars: {
+            "--flexora-button-bg": "#16a34a",
+            "--flexora-button-color": "#ffffff",
+            "--flexora-button-border": "transparent",
+            "--flexora-button-shadow": "0 1px 2px rgba(22, 163, 74, 0.22)",
+            "--flexora-button-hover-bg": "#15803d",
+            "--flexora-button-active-bg": "#166534",
         },
-        hover: { backgroundColor: "#15803d" },
-        active: { backgroundColor: "#166534", transform: "translateY(1px)" },
     },
     outlined: {
-        base: {
-            backgroundColor: "transparent",
-            borderColor: "#9ca3af",
-            color: "#374151",
+        vars: {
+            "--flexora-button-bg": "transparent",
+            "--flexora-button-color": "#374151",
+            "--flexora-button-border": "#9ca3af",
+            "--flexora-button-shadow": "none",
+            "--flexora-button-hover-bg": "#f9fafb",
+            "--flexora-button-hover-border": "#6b7280",
+            "--flexora-button-active-bg": "#f3f4f6",
         },
-        hover: {
-            backgroundColor: "#f9fafb",
-            borderColor: "#6b7280",
-        },
-        active: { backgroundColor: "#f3f4f6", transform: "translateY(1px)" },
     },
     ghost: {
-        base: {
-            backgroundColor: "transparent",
-            color: "#374151",
+        vars: {
+            "--flexora-button-bg": "transparent",
+            "--flexora-button-color": "#374151",
+            "--flexora-button-border": "transparent",
+            "--flexora-button-shadow": "none",
+            "--flexora-button-hover-bg": "#f3f4f6",
+            "--flexora-button-active-bg": "#e5e7eb",
         },
-        hover: { backgroundColor: "#f3f4f6" },
-        active: { backgroundColor: "#e5e7eb", transform: "translateY(1px)" },
     },
 };
 
@@ -141,6 +153,29 @@ const iconStyle: React.CSSProperties = {
     lineHeight: 0,
 };
 
+const buttonCss = `
+.flexora-button {
+    background-color: var(--flexora-button-bg);
+    border-color: var(--flexora-button-border);
+    box-shadow: var(--flexora-button-shadow);
+    color: var(--flexora-button-color);
+}
+
+.flexora-button:hover:not(:disabled) {
+    background-color: var(--flexora-button-hover-bg);
+    border-color: var(--flexora-button-hover-border, var(--flexora-button-border));
+}
+
+.flexora-button:active:not(:disabled) {
+    background-color: var(--flexora-button-active-bg);
+    transform: translateY(1px);
+}
+
+.flexora-button:focus-visible:not(:disabled) {
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.22);
+}
+`;
+
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     (
         {
@@ -155,77 +190,41 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             disabled = false,
             style,
             type = "button",
-            onMouseEnter,
-            onMouseLeave,
-            onMouseDown,
-            onMouseUp,
-            onFocus,
-            onBlur,
             ...props
         },
         ref
     ) => {
-        const [interaction, setInteraction] = React.useState<
-            "idle" | "hover" | "active"
-        >("idle");
-        const [isFocused, setIsFocused] = React.useState(false);
-
         const variantStyle = variantStyles[variant];
         const content = children ?? name;
 
-        const currentStyle: React.CSSProperties = {
+        const currentStyle: ButtonCssVars = {
             ...baseStyle,
-            ...variantStyle.base,
+            ...variantStyle.vars,
             ...sizeStyles[size],
             ...(fullWidth ? { width: "100%" } : undefined),
-            ...(interaction === "hover" ? variantStyle.hover : undefined),
-            ...(interaction === "active" ? variantStyle.active : undefined),
-            ...(isFocused && !disabled
-                ? { boxShadow: "0 0 0 3px rgba(37, 99, 235, 0.22)" }
-                : undefined),
             ...(disabled ? disabledStyle : undefined),
             ...style,
         };
 
         return (
-            <button
-                ref={ref}
-                type={type}
-                className={className}
-                style={currentStyle}
-                disabled={disabled}
-                aria-label={props["aria-label"] || (typeof content === "string" ? content : undefined)}
-                onMouseEnter={(event) => {
-                    if (!disabled) setInteraction("hover");
-                    onMouseEnter?.(event);
-                }}
-                onMouseLeave={(event) => {
-                    if (!disabled) setInteraction("idle");
-                    onMouseLeave?.(event);
-                }}
-                onMouseDown={(event) => {
-                    if (!disabled) setInteraction("active");
-                    onMouseDown?.(event);
-                }}
-                onMouseUp={(event) => {
-                    if (!disabled) setInteraction("hover");
-                    onMouseUp?.(event);
-                }}
-                onFocus={(event) => {
-                    setIsFocused(true);
-                    onFocus?.(event);
-                }}
-                onBlur={(event) => {
-                    setIsFocused(false);
-                    setInteraction("idle");
-                    onBlur?.(event);
-                }}
-                {...props}
-            >
-                {startIcon && <span style={iconStyle}>{startIcon}</span>}
-                <span>{content}</span>
-                {endIcon && <span style={iconStyle}>{endIcon}</span>}
-            </button>
+            <>
+                <style>{buttonCss}</style>
+                <button
+                    ref={ref}
+                    type={type}
+                    className={["flexora-button", className]
+                        .filter(Boolean)
+                        .join(" ")}
+                    style={currentStyle}
+                    disabled={disabled}
+                    aria-label={props["aria-label"] || (typeof content === "string" ? content : undefined)}
+                    {...props}
+                >
+                    {startIcon && <span style={iconStyle}>{startIcon}</span>}
+                    <span>{content}</span>
+                    {endIcon && <span style={iconStyle}>{endIcon}</span>}
+                </button>
+            </>
         );
     }
 );
