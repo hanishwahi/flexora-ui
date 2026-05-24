@@ -1,13 +1,16 @@
 {
   "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext", // ✅ VERY IMPORTANT
+    "moduleResolution": "Bundler",
+    "jsx": "react-jsx",
     "declaration": true,
-    "emitDeclarationOnly": true,
+    "emitDeclarationOnly": true, // ✅ keep this
     "outDir": "dist",
     "rootDir": "src",
-    "jsx": "react-jsx",
-    "allowJs": true,
-    "esModuleInterop": true,
+    "strict": true,
     "skipLibCheck": true
   },
-  "include": ["src"]
+  "include": ["src"],
+  "exclude": ["node_modules", "dist"]
 }
