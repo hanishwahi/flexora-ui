@@ -1,16 +1,57 @@
-# React + Vite
+# Flexora UI
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Reusable React components with built-in styling.
 
-Currently, two official plugins are available:
+## Install
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+```bash
+npm install flexora-ui
+```
 
-## React Compiler
+## Button
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+The Button component works without installing Tailwind, Bootstrap, or any extra CSS package. Choose a `variant` and `size`, and Flexora UI applies the design automatically.
 
-## Expanding the ESLint configuration
+```tsx
+import { Button } from "flexora-ui";
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+export function Example() {
+    return (
+        <Button
+            name="Save changes"
+            variant="primary"
+            size="md"
+            onClick={() => console.log("Saved")}
+        />
+    );
+}
+```
+
+You can also use `children`, icons, `className`, and `style` when you need custom design control.
+
+```tsx
+<Button
+    variant="outlined"
+    startIcon={<span>+</span>}
+    className="my-custom-button"
+    style={{ borderRadius: 999 }}
+>
+    Create project
+</Button>
+```
+
+### Props
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| `name` | `string` | `"Click Me"` |
+| `children` | `React.ReactNode` | - |
+| `variant` | `"primary" \| "secondary" \| "danger" \| "success" \| "outlined" \| "ghost"` | `"primary"` |
+| `size` | `"sm" \| "md" \| "lg"` | `"md"` |
+| `startIcon` | `React.ReactNode` | - |
+| `endIcon` | `React.ReactNode` | - |
+| `fullWidth` | `boolean` | `false` |
+| `className` | `string` | - |
+| `style` | `React.CSSProperties` | - |
+
+All native button props like `disabled`, `type`, `onClick`, and `aria-*` are supported.
